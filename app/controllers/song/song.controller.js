@@ -13,5 +13,6 @@ var _ = require('lodash');
  */
 module.exports = _.extend(
   require('./modules/manage.controller.js'),
-  require('./modules/upload-song.controller.js')
+  require('./modules/upload-song.controller.js'),
+  require('./modules/download-song.controller.js')
 );

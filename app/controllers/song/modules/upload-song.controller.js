@@ -44,13 +44,13 @@ exports.songsUpload = function(req, res) {
     console.info('url: '+file.path);
     // Add missing user fields
     song.isPlaying = false;
-    song.url = songSavePath+ file.originalname;
+    song.url = path.join(__dirname,'../../../../'+songSavePath+ file.originalname);
     song.name = file.originalname;
 
     // Then save the user
     song.save(function (err) {
       if (err) {
-        return res.status(400).send({
+        return res.status(400).jsonp({
           message: err
         });
       } else {
@@ -63,59 +63,4 @@ exports.songsUpload = function(req, res) {
       }
     });
   });
-
-
-  //console.info(req.file.buffer);
-  //var file = req.file,
-  //  path = 'modules/music/client/music/upload/',
-  //  clientSidePath = 'modules/music/music/upload/',
-  //  buffer = file.buffer,
-  //  timeStamp = Date.now(),
-  //  fileFullPath = path+timeStamp+'-'+file.originalname,
-  //  errorMessage,
-  //  song = new Song(req.body);
-  //// audio/mpeg audio/x-ms-wma audio/vnd.rn-realaudio audio/x-wav
-  //if(mime.lookup(file.originalname).indexOf('audio') !== -1){
-  //  fs.writeFile(fileFullPath,buffer,function(error){
-  //    if (error){
-  //      errorMessage = 'Problem saving the file ' + file.name + '. Please try again.';
-  //      res.status(400).send({
-  //        message: errorMessage
-  //      });
-  //      console.log(errorMessage);
-  //      throw error;
-  //    }
-  //
-  //    // save song into db
-  //    console.info('url: '+file.path);
-  //    // Add missing user fields
-  //    song.isPlaying = false;
-  //    song.url = clientSidePath + timeStamp +'-'+ file.originalname;
-  //    song.name = file.originalname;
-  //    song.createdTimeStamp = timeStamp;
-  //
-  //    // Then save the user
-  //    song.save(function (err) {
-  //      if (err) {
-  //        return res.status(400).send({
-  //          message: err
-  //        });
-  //      } else {
-  //        // Remove sensitive data before login
-  //        // success
-  //        res.jsonp({
-  //          message: 'File saved successfully.'
-  //        });
-  //        console.log(fileFullPath+' is saved!');
-  //      }
-  //    });
-  //
-  //  });
-  //} else {
-  //  errorMessage = 'File\'s mime type is not an audio.';
-  //  res.status(400).send({
-  //    message: errorMessage
-  //  });
-  //  console.log(errorMessage);
-  //}
 };

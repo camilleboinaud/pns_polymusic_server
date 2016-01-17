@@ -58,13 +58,12 @@ module.exports = function(app, config) {
   app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Credentials', '*');
-    res.header("Access-Control-Allow-Headers", "X-Requested-With,Content-Type,Cache-Control");
+    res.header("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type,Cache-Control, Accept");
     if (req.method === 'OPTIONS') {
       res.statusCode = 204;
-
+      res.end();
     } else {
-      return next();
+      next();
     }
   });
 

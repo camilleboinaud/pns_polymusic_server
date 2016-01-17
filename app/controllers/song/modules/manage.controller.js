@@ -26,6 +26,7 @@ exports.getPlaylist = function(req, res) {
 
 
 exports.hello = function (req, res) {
+  console.log('############ HEllo ############');
   res.jsonp({
     hello:'world'
   });
