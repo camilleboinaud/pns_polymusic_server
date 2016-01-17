@@ -43,8 +43,8 @@ exports.songsUpload = function(req, res) {
     // save song into db
     console.info('url: '+file.path);
     // Add missing user fields
-    song.isPlaying = false;
-    song.url = path.join(__dirname,'../../../../'+songSavePath+ file.originalname);
+    //song.is_pub = ;
+    song.path = path.join(__dirname,'../../../../'+songSavePath+ file.originalname);
     song.name = file.originalname;
 
     // Then save the user

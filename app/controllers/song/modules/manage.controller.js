@@ -16,10 +16,9 @@ var express = require('express'),
  */
 exports.getPlaylist = function(req, res) {
   console.log('############ GET PLAYLIST ############');
-  Song.find({}).sort().exec(function(err,songs){
+  var query = req.query;
+  Song.find(query).sort().exec(function(err,songs){
     if(err) console.info(err);
-    console.log('get songs:');
-    console.info(songs);
     res.jsonp(songs);
   });
 };

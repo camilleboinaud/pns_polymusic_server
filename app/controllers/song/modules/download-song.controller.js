@@ -11,11 +11,10 @@ var mongoose = require('mongoose'),
 exports.songDownload = function(req, res) {
   console.log('############ Music Download ############');
   var id = req.params.id;
-  console.log('ID = '+id);
   Song.findById(id, function (err, found) {
     console.info(found);
     if(found){
-      res.sendFile(found.url);
+      res.sendFile(found.path);
     } else {
       res.statusCode = 404;
       res.end();

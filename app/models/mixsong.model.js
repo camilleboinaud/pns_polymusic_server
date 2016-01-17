@@ -22,50 +22,44 @@ var mongoose = require('mongoose'),
  isPlaying: false
 
  */
-var TimeSchema = new Schema({
-  min: {
-    type: Number,
-    trim: true,
-    min: 0,
-    default: 0
-  },
-  sec: {
-    type: Number,
-    trim: true,
-    min: 0,
-    max: 60,
-    default: 0
-  }
-});
 
-var SongSchema = new Schema({
-  name: {
-    type: String,
-    trim: true,
-    default: 'unknown'
-  },
-  cover: {
-    type: String,
-    trim: true,
-    default: 'default.jpg'
-  },
-  path: {
+var MixSchema = new Schema({
+  user_id: {
     type: String,
     trim: true,
     default: ''
   },
-  time: [TimeSchema],
-  is_pub: {
+  song_ids: {
+    type: String,
+    trim: true,
+    default: 'default.jpg'
+  },
+  name: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  tracks: {
+    type: String,
+    trim: true
+  },
+  url: {
     type: Boolean,
     default: false
   },
-  updated: {
+  scores: {
     type: Date
   },
-  created: {
+  nb_marker: {
+    type: Date
+  },
+  is_public: {
+    type: Date
+  },
+  timechamps: {
     type: Date,
     default: Date.now
   }
 });
 
-var Song = mongoose.model('Song', SongSchema);
+var Mix = mongoose.model('Mix', MixSchema);
