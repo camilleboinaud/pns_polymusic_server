@@ -10,7 +10,8 @@ module.exports = function (app) {
   // Setting up the users profile api
   app.post('/api/songs', song.songsUpload);
   app.get('/api/songs', song.getPlaylist);
-  app.get('/api/songs/:id', song.songDownload);
-  app.post('/api/songs/hello',song.hello)
+  app.get('/api/songs/:id', song.getSongById);
+  app.get('/api/songs/:id/tracks', song.getTracksBySongId);
+  app.get('/api/songs/:songId/tracks/:trackId', song.getTrackById);
 
 };

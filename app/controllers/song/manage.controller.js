@@ -22,11 +22,3 @@ exports.getPlaylist = function(req, res) {
     res.jsonp(songs);
   });
 };
-
-
-exports.hello = function (req, res) {
-  console.log('############ HEllo ############');
-  res.jsonp({
-    hello:'world'
-  });
-};

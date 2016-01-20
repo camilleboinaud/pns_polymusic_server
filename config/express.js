@@ -50,7 +50,6 @@ module.exports = function(app, config) {
     dest: config.root + '/public/uploads/',
     inMemory: true
   });
-  app.use(uploads.single('file'));
 
   /**
    * Cross domain

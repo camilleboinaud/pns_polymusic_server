@@ -38,6 +38,22 @@ var TimeSchema = new Schema({
   }
 });
 
+var TrackSchema = new Schema({
+  name: {
+    type: String,
+    trim: true,
+    default: 'unknown track'
+  },
+  path: {
+    type: String,
+    trim: true
+  },
+  url: {
+    type: String,
+    trim: true
+  }
+});
+
 var SongSchema = new Schema({
   name: {
     type: String,
@@ -51,10 +67,9 @@ var SongSchema = new Schema({
   },
   path: {
     type: String,
-    trim: true,
-    default: ''
+    trim: true
   },
-  time: [TimeSchema],
+  time: TimeSchema,
   is_pub: {
     type: Boolean,
     default: false
@@ -65,7 +80,8 @@ var SongSchema = new Schema({
   created: {
     type: Date,
     default: Date.now
-  }
+  },
+  tracks: [TrackSchema]
 });
 
 var Song = mongoose.model('Song', SongSchema);
