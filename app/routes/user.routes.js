@@ -11,6 +11,6 @@ module.exports = function (app) {
   app.post('/login', user.login);
   app.post('/register', user.register);
   app.post('/logout', authentication.isAuthenticated, user.logout);
-  app.post('/isLoggedIn', user.isLoggedIn);
+  //app.post('/isLoggedIn', user.isLoggedIn);
 
 };
