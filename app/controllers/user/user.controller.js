@@ -30,3 +30,8 @@ exports.logout = function(request, result){
     delete session.user;
     result.send(true);
 };
+
+exports.isLoggedIn = function(request, result){
+  if(session.user) result.send(true);
+  result.send(false);
+};

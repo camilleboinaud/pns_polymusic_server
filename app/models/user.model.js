@@ -26,6 +26,12 @@ var validateLocalStrategyEmail = function (email) {
  * User Schema
  */
 var UserSchema = new Schema({
+  username: {
+    type: String,
+    trim: true,
+    unique: true,
+    default: 'Anonymous'
+  },
   email: {
     type: String,
     trim: true,
@@ -91,18 +97,6 @@ UserSchema.methods.hashPassword = function (password) {
  */
 UserSchema.methods.authenticate = function (password) {
   return this.password === this.hashPassword(password);
-};
-
-/**
- * Find possible not used username
- */
-UserSchema.statics.findUniqueUsername = function (login) {
-  var _this = this;
-  var query = _this.findOne({ email: login }).exec(function(err, user){
-      if(err) return handleError(err);
-
-      console.log(user);
-  });
 };
 
 mongoose.model('User', UserSchema);

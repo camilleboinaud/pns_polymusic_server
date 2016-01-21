@@ -55,14 +55,14 @@ module.exports = function(app, config) {
    * Cross domain
    */
   app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header("Access-Control-Allow-Origin", 'http://localhost:9000');
+    res.header('Access-Control-Allow-Methods', '*');
     res.header("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type,Cache-Control, Accept");
     if (req.method === 'OPTIONS') {
       res.statusCode = 204;
       res.end();
     } else {
-      next();
+      next(req, res);
     }
   });
 
