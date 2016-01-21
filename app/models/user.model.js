@@ -9,13 +9,6 @@ var mongoose = require('mongoose'),
   validator = require('validator');
 
 /**
- * A Validation function for local strategy properties
- */
-var validateLocalStrategyProperty = function (property) {
-  return ((this.provider !== 'local' && !this.updated) || property.length);
-};
-
-/**
  * A Validation function for local strategy password
  */
 var validateLocalStrategyPassword = function (password) {
@@ -33,34 +26,12 @@ var validateLocalStrategyEmail = function (email) {
  * User Schema
  */
 var UserSchema = new Schema({
-  firstName: {
-    type: String,
-    trim: true,
-    default: '',
-    validate: [validateLocalStrategyProperty, 'Please fill in your first name']
-  },
-  lastName: {
-    type: String,
-    trim: true,
-    default: '',
-    validate: [validateLocalStrategyProperty, 'Please fill in your last name']
-  },
-  displayName: {
-    type: String,
-    trim: true
-  },
   email: {
     type: String,
     trim: true,
     unique: true,
     default: '',
     validate: [validateLocalStrategyEmail, 'Please fill a valid email address']
-  },
-  username: {
-    type: String,
-    unique: 'Username already exists',
-    required: 'Please fill in a username',
-    trim: true
   },
   password: {
     type: String,
@@ -70,16 +41,6 @@ var UserSchema = new Schema({
   salt: {
     type: String
   },
-  profileImageURL: {
-    type: String,
-    default: 'modules/users/img/profile/default.png'
-  },
-  provider: {
-    type: String,
-    required: 'Provider is required'
-  },
-  providerData: {},
-  additionalProvidersData: {},
   roles: {
     type: [{
       type: String,
@@ -107,11 +68,10 @@ var UserSchema = new Schema({
  * Hook a pre save method to hash the password
  */
 UserSchema.pre('save', function (next) {
-  if (this.password && this.isModified('password') && this.password.length > 6) {
+  if (this.password && this.isModified('password') && this.password.length >= 6) {
     this.salt = crypto.randomBytes(16).toString('base64');
     this.password = this.hashPassword(this.password);
   }
-
   next();
 });
 
@@ -136,22 +96,12 @@ UserSchema.methods.authenticate = function (password) {
 /**
  * Find possible not used username
  */
-UserSchema.statics.findUniqueUsername = function (username, suffix, callback) {
+UserSchema.statics.findUniqueUsername = function (login) {
   var _this = this;
-  var possibleUsername = username + (suffix || '');
+  var query = _this.findOne({ email: login }).exec(function(err, user){
+      if(err) return handleError(err);
 
-  _this.findOne({
-    username: possibleUsername
-  }, function (err, user) {
-    if (!err) {
-      if (!user) {
-        callback(possibleUsername);
-      } else {
-        return _this.findUniqueUsername(username, (suffix || 0) + 1, callback);
-      }
-    } else {
-      callback(null);
-    }
+      console.log(user);
   });
 };
 
