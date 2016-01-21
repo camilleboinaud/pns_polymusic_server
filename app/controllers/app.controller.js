@@ -12,14 +12,18 @@
 var _ = require('lodash'),
   express = require('express'),
   router = express.Router(),
-  mongoose = require('mongoose');
+  mongoose = require('mongoose'),
+  session = require('express-session'),
+  app = express();
 
+app.use(session({resave: true, saveUninitialized: true, secret: 'SOMERANDOMSECRETHERE', cookie: { maxAge: 60000 }}));
 
 /**
  * Extend user's controller
  */
 module.exports = _.extend(
-  require('./song/song.controller.js')
+  require('./song/song.controller.js'),
+  require('./user/user.controller.js')
 );
 
 
