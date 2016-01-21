@@ -70,7 +70,7 @@ exports.songsUpload = function(req, res) {
       // track is saves so we can get id
       // add url
       song.tracks.forEach(function (track) {
-        track.url = song._id+'/tracks/'+track._id;
+        track.url = 'http://localhost:3000/api/songs/'+song._id+'/tracks/'+track._id;
       });
 
       // Then save the user

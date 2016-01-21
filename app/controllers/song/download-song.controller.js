@@ -45,12 +45,11 @@ exports.getTrackById = function(req, res) {
     if(found){
       var isFound = false;
       found.tracks.forEach(function (track) {
-        if (track._id == trackId){
+        if (track._id == trackId && !isFound){
           isFound = true;
           res.sendfile(track.path);
         }
       });
-
       if (!isFound){
         res.statusCode = 404;
         res.end();
