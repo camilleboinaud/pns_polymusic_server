@@ -44,6 +44,8 @@ exports.songsUpload = function(req, res) {
       songName = req.body.songName,
       song = new Song(req.body);
 
+
+
     // It is synchronously
     tracks.forEach(function(trackFile){
       // save song into db
@@ -66,15 +68,18 @@ exports.songsUpload = function(req, res) {
     // Then save the user
     song.save(function (err) {
       if (err) {
-        res.status(400).jsonp({
+        res.status(400).json({
           message: err
         });
         throw err;
       } else {
         // Remove sensitive data before login
         // success
-        res.jsonp({
-          message: 'File saved successfully.'
+        res.header('Access-Control-Allow-Methods', '*');
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Cache-Control, Accept');
+        res.json({
+          message: songName + ' saved successfully.'
         });
         console.log(songName +' is saved!');
       }
