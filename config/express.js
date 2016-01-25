@@ -55,9 +55,10 @@ module.exports = function(app, config) {
    * Cross domain
    */
   app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", 'http://localhost:9000');
+    res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', '*');
-    res.header("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type,Cache-Control, Accept");
+    res.header('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Cache-Control, Accept');
+    console.log('set cross header for '+req.method);
     if (req.method === 'OPTIONS') {
       res.statusCode = 204;
       res.end();

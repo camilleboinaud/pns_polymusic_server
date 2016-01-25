@@ -47,13 +47,13 @@ exports.getTrackById = function(req, res) {
       found.tracks.forEach(function (track) {
         if (track._id == trackId && !isFound){
           isFound = true;
-          res.sendfile(track.path);
+          res.sendFile(track.path);
         }
       });
-      if (!isFound){
-        res.statusCode = 404;
-        res.end();
-      }
+      //if (!isFound){
+      //  res.statusCode = 404;
+      //  res.end();
+      //}
     } else {
       res.statusCode = 404;
       res.end();
