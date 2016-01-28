@@ -16,17 +16,15 @@ var CommentSchema = new Schema({
   content: {
     type: String,
     trim: true,
-    default: 'unknown'
+    required: true
   },
-  user_id: {
-    type: String,
-    trim: true,
-    default: 'default.jpg'
+  song_id: {
+    type: Schema.ObjectId,
+    required: true
   },
-  mix_id: {
-    type: String,
-    trim: true,
-    default: ''
+  rating: {
+    type: Number,
+    default: 0
   },
   timechamps: {
     type: Date,
@@ -35,3 +33,4 @@ var CommentSchema = new Schema({
 });
 
 var Comment = mongoose.model('Comment', CommentSchema);
+

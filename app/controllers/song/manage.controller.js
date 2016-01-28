@@ -2,11 +2,9 @@
  * Created by sth on 1/15/16.
  */
 'use strict';
-var express = require('express'),
-  mongoose = require('mongoose'),
+var mongoose = require('mongoose'),
   Song = mongoose.model('Song'),
-  path = require('path'),
-  app = express();
+  Comment = mongoose.model('Comment');
 
 
 /**
@@ -20,5 +18,15 @@ exports.getPlaylist = function(req, res) {
   Song.find(query).sort().exec(function(err,songs){
     if(err) console.info(err);
     res.jsonp(songs);
+  });
+};
+
+
+exports.getCommentsBySongId = function (req, res) {
+  console.log('############ GET COMMENTS ############');
+  var songId = req.params.songId,
+    query = req.query;
+  Comment.find({song_id:songId}).limit(1).exec(function (err, comments) {
+    res.json(comments);
   });
 };

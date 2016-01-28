@@ -14,11 +14,16 @@ var express = require('express'),
     destination:savePath,
     filename: function (req, file, cb) {
       file.originalname = decodeURIComponent(file.originalname);
-      var folderPath = path.join(__dirname,'../../../'+ savePath +req.body.songName);
-      if (!fs.existsSync(folderPath)){
-        fs.mkdirSync(folderPath);
+      if(mime.lookup(file.originalname).indexOf('audio') != -1){
+        var folderPath = path.join(__dirname,'../../../'+ savePath +req.body.songName);
+        if (!fs.existsSync(folderPath)){
+          fs.mkdirSync(folderPath);
+        }
+        cb(null, req.body.songName+'/'+file.originalname)
+      } else {
+        console.log(file.originalname + ': mime type wrong');
+        cb(null, false);
       }
-      cb(null, req.body.songName+'/'+file.originalname)
     }
   }),
   upload = multer({
@@ -32,6 +37,9 @@ var express = require('express'),
  */
 exports.songsUpload = function(req, res) {
   console.log('############ Music Upload ############');
+  res.header('Access-Control-Allow-Methods', '*');
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Cache-Control, Accept');
   upload.any()(req,res,function(error){
     if(error){
       console.error(error);
@@ -42,8 +50,8 @@ exports.songsUpload = function(req, res) {
     }
     var tracks = req.files,
       songName = req.body.songName,
+      author = req.body.author,
       song = new Song(req.body);
-
 
 
     // It is synchronously
@@ -58,6 +66,8 @@ exports.songsUpload = function(req, res) {
     });
 
     song.path = path.join(__dirname,'../../../' + savePath + songName);
+    song.name = songName;
+    song.author = author;
 
     // track is saves so we can get id
     // add url
@@ -75,9 +85,6 @@ exports.songsUpload = function(req, res) {
       } else {
         // Remove sensitive data before login
         // success
-        res.header('Access-Control-Allow-Methods', '*');
-        res.header('Access-Control-Allow-Origin', '*');
-        res.header('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Cache-Control, Accept');
         res.json({
           message: songName + ' saved successfully.'
         });

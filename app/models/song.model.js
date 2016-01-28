@@ -60,10 +60,10 @@ var SongSchema = new Schema({
     trim: true,
     default: 'unknown'
   },
-  cover: {
+  author: {
     type: String,
     trim: true,
-    default: 'default.jpg'
+    default: 'unknown'
   },
   path: {
     type: String,
@@ -81,7 +81,12 @@ var SongSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  tracks: [TrackSchema]
+  tracks: [TrackSchema],
+  comments: [Schema.ObjectId],
+  rating: {
+    type: Number,
+    default: 0
+  }
 });
 
 var Song = mongoose.model('Song', SongSchema);

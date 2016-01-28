@@ -37,23 +37,20 @@ exports.getTracksBySongId = function(req, res) {
 
 exports.getTrackById = function(req, res) {
   console.log('############ GET TRACK ############');
+  res.header('Access-Control-Allow-Methods', '*');
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Cache-Control, Accept');
   var songId = req.params.songId,
     trackId = req.params.trackId;
   console.info(req.params);
   Song.findById(songId, function (err, found) {
     console.info(found);
     if(found){
-      var isFound = false;
       found.tracks.forEach(function (track) {
-        if (track._id == trackId && !isFound){
-          isFound = true;
+        if (track._id == trackId){
           res.sendFile(track.path);
         }
       });
-      //if (!isFound){
-      //  res.statusCode = 404;
-      //  res.end();
-      //}
     } else {
       res.statusCode = 404;
       res.end();

@@ -13,5 +13,6 @@ module.exports = function (app) {
   app.get('/api/songs/:id', song.getSongById);
   app.get('/api/songs/:id/tracks', song.getTracksBySongId);
   app.get('/api/songs/:songId/tracks/:trackId', song.getTrackById);
+  app.get('/api/songs/:songId/comments', song.getCommentsBySongId);
 
 };
