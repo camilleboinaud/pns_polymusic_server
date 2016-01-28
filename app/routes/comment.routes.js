@@ -9,5 +9,6 @@ module.exports = function (app) {
 
   // Setting up the users profile api
   app.post('/api/comments', comment.writeNewComment);
+  app.post('/api/ratings', comment.rating);
 
 };
