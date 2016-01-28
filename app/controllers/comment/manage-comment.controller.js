@@ -62,8 +62,49 @@ exports.writeNewComment = function(req, res) {
 exports.getCommentsBySongId = function (req, res) {
   console.log('############ GET COMMENTS ############');
   var songId = req.params.songId,
-    query = req.query;
-  Comment.find({song_id:songId}).exec(function (err, comments) {
-    res.json(comments);
-  });
+    query = {song_id:songId},
+    limit,
+    pageIndex;
+
+  if (req.query.limit){
+    limit = parseInt(req.query.limit);
+  }
+
+
+  if (req.query.pageIndex){
+    pageIndex = parseInt(req.query.pageIndex);
+    Comment.find(query).sort('-timechamps').skip((pageIndex-1)*limit).limit(limit).exec(function (err, comments) {
+      res.json(comments);
+    });
+  } else {
+    if(req.query.lastTimeChamps){
+      query.timechamps = { $lt:req.query.lastTimeChamps};
+    }
+    Comment.find(query).sort('-timechamps').limit(limit).exec(function (err, comments) {
+      res.json(comments);
+    });
+  }
+
+};
+
+exports.getNbPages = function (req, res) {
+  console.log('############ GET NG PAGES ############');
+  var query = {},
+    limit = parseInt(req.query.limit),
+    nbPages = 1;
+  if (req.query.songId){
+    query.song_id = req.query.songId;
+  }
+
+  Comment.count(query, function (err, c) {
+    if(limit){
+      nbPages = Math.ceil(c/limit);
+    }
+    if (nbPages == 0){
+      nbPages = 1;
+    }
+    res.json({
+      nbPages: nbPages
+    })
+  })
 };

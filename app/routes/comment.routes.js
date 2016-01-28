@@ -11,5 +11,6 @@ module.exports = function (app) {
   app.post('/api/comments', comment.writeNewComment);
   app.post('/api/ratings', comment.rating);
   app.get('/api/songs/:songId/comments', comment.getCommentsBySongId);
+  app.get('/api/comments/pages', comment.getNbPages);
 
 };
