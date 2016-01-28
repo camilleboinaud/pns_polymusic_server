@@ -2,13 +2,36 @@ var express = require('express'),
   glob = require('glob'),
   favicon = require('serve-favicon'),
   logger = require('morgan'),
-  cookieParser = require('cookie-parser'),
+  //cookieParser = require('cookie-parser'),
   bodyParser = require('body-parser'),
-  compress = require('compression'),
-  methodOverride = require('method-override'),
-  multer = require('multer');
+  //compress = require('compression'),
+  //methodOverride = require('method-override'),
+  multer = require('multer'),
+  cors = require('cors');
 
 module.exports = function(app, config) {
+
+  /**
+   * Cross domain
+   */
+  app.use(cors());
+  //app.use(function(req, res, next) {
+  //    res.header('Access-Control-Allow-Methods', '*');
+  //    res.header('Access-Control-Allow-Origin', '*');
+  //
+  //    res.header('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Cache-Control, Accept');
+  //    console.log('set cross header for ' + req.method);
+  //
+  //    if (req.method === 'OPTIONS') {
+  //      res.statusCode = 204;
+  //      res.end();
+  //    } else {
+  //      console.info(next);
+  //      next(req, res);
+  //    }
+  //  }
+  //);
+
   var env = process.env.NODE_ENV || 'development';
   app.locals.ENV = env;
   app.locals.ENV_DEVELOPMENT = env == 'development';
@@ -24,10 +47,10 @@ module.exports = function(app, config) {
     limit: '50mb'
   }));
 
-  app.use(cookieParser());
-  app.use(compress());
+  //app.use(cookieParser());
+  //app.use(compress());
   app.use(express.static(config.root + '/public'));
-  app.use(methodOverride());
+  //app.use(methodOverride());
 
   /**
    * require app controller
@@ -51,24 +74,8 @@ module.exports = function(app, config) {
     inMemory: true
   });
 
-  /**
-   * Cross domain
-   */
-  app.use(function(req, res, next) {
-      res.header('Access-Control-Allow-Methods', '*');
-      res.header('Access-Control-Allow-Origin', '*');
 
-      res.header('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Cache-Control, Accept');
-      console.log('set cross header for ' + req.method);
 
-      if (req.method === 'OPTIONS') {
-        res.statusCode = 204;
-        res.end();
-      } else {
-        next(req, res);
-      }
-    }
-  );
 
 
   app.use(function (req, res, next) {

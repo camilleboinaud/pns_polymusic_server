@@ -37,9 +37,6 @@ exports.getTracksBySongId = function(req, res) {
 
 exports.getTrackById = function(req, res) {
   console.log('############ GET TRACK ############');
-  res.header('Access-Control-Allow-Methods', '*');
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Cache-Control, Accept');
   var songId = req.params.songId,
     trackId = req.params.trackId;
   console.info(req.params);

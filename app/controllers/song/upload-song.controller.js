@@ -37,9 +37,6 @@ var express = require('express'),
  */
 exports.songsUpload = function(req, res) {
   console.log('############ Music Upload ############');
-  res.header('Access-Control-Allow-Methods', '*');
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Cache-Control, Accept');
   upload.any()(req,res,function(error){
     if(error){
       console.error(error);
