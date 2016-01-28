@@ -57,3 +57,13 @@ exports.writeNewComment = function(req, res) {
     }
   });
 };
+
+
+exports.getCommentsBySongId = function (req, res) {
+  console.log('############ GET COMMENTS ############');
+  var songId = req.params.songId,
+    query = req.query;
+  Comment.find({song_id:songId}).exec(function (err, comments) {
+    res.json(comments);
+  });
+};

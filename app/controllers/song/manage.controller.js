@@ -20,13 +20,3 @@ exports.getPlaylist = function(req, res) {
     res.jsonp(songs);
   });
 };
-
-
-exports.getCommentsBySongId = function (req, res) {
-  console.log('############ GET COMMENTS ############');
-  var songId = req.params.songId,
-    query = req.query;
-  Comment.find({song_id:songId}).limit(1).exec(function (err, comments) {
-    res.json(comments);
-  });
-};
