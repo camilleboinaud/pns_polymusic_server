@@ -34,7 +34,7 @@ exports.writeNewComment = function(req, res) {
           });
           throw err;
         }
-        song.comments.push(comment);
+        song.nbComment++;
         song.save(function (err) {
           if (err) {
             res.status(400).json({
@@ -107,4 +107,18 @@ exports.getNbPages = function (req, res) {
       nbPages: nbPages
     })
   })
+};
+
+exports.getNbCommentBySongId = function (req, res) {
+  console.log('############ GET NG COMMENT ############');
+  var query = {},
+    songId = req.params.songId;
+
+  Song.findById(songId, function (err, song) {
+    if(song){
+      res.json({
+        nbComment: song.nbComment
+      });
+    }
+  });
 };
