@@ -89,6 +89,10 @@ var SongSchema = new Schema({
   rating: {
     type: Number,
     default: 0
+  },
+  is_song: {
+    type: Boolean,
+    default: true
   }
 });
 
