@@ -14,17 +14,22 @@ var express = require('express'),
     destination:savePath,
     filename: function (req, file, cb) {
       file.originalname = decodeURIComponent(file.originalname);
-      if(mime.lookup(file.originalname).indexOf('audio') != -1){
         var folderPath = path.join(__dirname,'../../../'+ savePath +req.body.songName);
         if (!fs.existsSync(folderPath)){
           fs.mkdirSync(folderPath);
         }
-        cb(null, req.body.songName+'/'+file.originalname)
-      }
+        cb(null, req.body.songName+'/'+file.originalname);
     }
   }),
   upload = multer({
-    storage: storage
+    storage: storage,
+    fileFilter: function (req, file, cb) {
+      if(mime.lookup(file.originalname).indexOf('audio') != -1) {
+        cb(null, true);
+      } else {
+        cb(null, false);
+      }
+    }
   });
 
 /**
