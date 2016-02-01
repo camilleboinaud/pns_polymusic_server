@@ -16,8 +16,10 @@ exports.getPlaylist = function(req, res) {
   console.log('############ GET PLAYLIST ############');
   var query = {};
   if (req.query.string){
-    query.name = new RegExp(req.query.string);
-    //query.author = new RegExp(req.query.string);
+    query.$or = [
+      {name: new RegExp(req.query.string)},
+      {author: new RegExp(req.query.string)}
+    ];
   }
   if (req.query.isSong) {
     query.is_song = new RegExp(req.query.isSong);
