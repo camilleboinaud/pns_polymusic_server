@@ -20,28 +20,43 @@ exports.rating = function (req, res) {
       });
       throw err;
     }
-
-    if(!doc){
-      ratingModel = new Rating();
-      ratingModel.song_id = songId;
-      ratingModel.user_id = userId;
-      ratingModel.rating = rating;
-    } else {
-      ratingModel = doc;
-      ratingModel.rating = rating;
-    }
-
-    ratingModel.save(function (err) {
+    Song.findById(songId, function (err, song) {
       if (err) {
         res.status(400).json({
           message: err
         });
         throw err;
       }
-      console.log('rating: songId:'+ songId + ',userId:'+ userId+',rating:'+rating+'. saved successfully.');
-      res.json({
-        message: 'rating: songId:'+ songId + ',userId:'+ userId+',rating:'+rating+'. saved successfully.'
-      });
+      if(!song){
+        res.status(404).json({
+          message: 'song not found'
+        });
+      } else {
+        if(!doc){
+          ratingModel = new Rating();
+          ratingModel.song_id = songId;
+          ratingModel.user_id = userId;
+          ratingModel.rating = rating;
+        } else {
+          ratingModel = doc;
+          ratingModel.rating = rating;
+        }
+        ratingModel.save(function (err) {
+          if (err) {
+            res.status(400).json({
+              message: err
+            });
+            throw err;
+          }
+
+          console.log('rating: songId:'+ songId + ',userId:'+ userId+',rating:'+rating+'. saved successfully.');
+          res.json({
+            message: 'rating: songId:'+ songId + ',userId:'+ userId+',rating:'+rating+'. saved successfully.'
+          });
+        });
+      }
+
+
     });
 
   });

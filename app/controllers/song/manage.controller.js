@@ -15,8 +15,14 @@ var mongoose = require('mongoose'),
 exports.getPlaylist = function(req, res) {
   console.log('############ GET PLAYLIST ############');
   var query = req.query;
+  if (req.query.name){
+    query.name = new RegExp(req.query.name);
+  }
   Song.find(query).sort().exec(function(err,songs){
-    if(err) console.info(err);
-    res.jsonp(songs);
+    if(err) {
+      console.info(err);
+    } else{
+      res.jsonp(songs);
+    }
   });
 };

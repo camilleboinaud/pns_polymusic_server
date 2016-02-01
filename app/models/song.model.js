@@ -82,7 +82,10 @@ var SongSchema = new Schema({
     default: Date.now
   },
   tracks: [TrackSchema],
-  comments: [Schema.ObjectId],
+  nbComment: {
+    type: Number,
+    default: 0
+  },
   rating: {
     type: Number,
     default: 0
