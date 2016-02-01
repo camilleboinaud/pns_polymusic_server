@@ -20,9 +20,6 @@ var express = require('express'),
           fs.mkdirSync(folderPath);
         }
         cb(null, req.body.songName+'/'+file.originalname)
-      } else {
-        console.log(file.originalname + ': mime type wrong');
-        cb(null, false);
       }
     }
   }),
