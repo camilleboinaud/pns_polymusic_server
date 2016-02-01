@@ -1,8 +1,5 @@
 /**
- * Created by sth on 1/17/16.
- */
-/**
- * Created by sth on 1/11/16.
+ * Created by sth on 1/28/16.
  */
 'use strict';
 
@@ -12,13 +9,12 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
-var CommentSchema = new Schema({
-  content: {
-    type: String,
-    trim: true,
+var RatingSchema = new Schema({
+  song_id: {
+    type: Schema.ObjectId,
     required: true
   },
-  song_id: {
+  user_id: {
     type: Schema.ObjectId,
     required: true
   },
@@ -32,5 +28,5 @@ var CommentSchema = new Schema({
   }
 });
 
-var Comment = mongoose.model('Comment', CommentSchema);
+var Rating = mongoose.model('Rating', RatingSchema);
 

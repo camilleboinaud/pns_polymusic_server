@@ -43,17 +43,11 @@ exports.getTrackById = function(req, res) {
   Song.findById(songId, function (err, found) {
     console.info(found);
     if(found){
-      var isFound = false;
       found.tracks.forEach(function (track) {
-        if (track._id == trackId && !isFound){
-          isFound = true;
+        if (track._id == trackId){
           res.sendFile(track.path);
         }
       });
-      //if (!isFound){
-      //  res.statusCode = 404;
-      //  res.end();
-      //}
     } else {
       res.statusCode = 404;
       res.end();

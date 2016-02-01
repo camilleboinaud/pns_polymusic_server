@@ -16,8 +16,7 @@ var _ = require('lodash'),
   session = require('express-session'),
   app = express();
 
-app.use(session({resave: true, saveUninitialized: true, secret: 'SOMERANDOMSECRETHERE', cookie: { maxAge: 60000 }}));
-
+//app.use(session({resave: true, saveUninitialized: true, secret: 'SOMERANDOMSECRETHERE', cookie: { maxAge: 60000 }}));
 /**
  * Extend user's controller
  */
@@ -38,3 +37,6 @@ module.exports = function (app) {
 router.get('/', function (req, res) {
   res.send('Welcome PolyMusic');
 });
+
+
+
