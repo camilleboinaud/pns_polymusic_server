@@ -90,6 +90,10 @@ var SongSchema = new Schema({
     type: Number,
     default: 0
   },
+  nbRating: {
+    type: Number,
+    default: 0
+  },
   rating: {
     type: Number,
     default: 0

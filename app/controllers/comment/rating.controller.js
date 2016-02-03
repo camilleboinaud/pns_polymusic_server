@@ -41,6 +41,9 @@ exports.rating = function (req, res) {
           ratingModel = doc;
           ratingModel.rating = rating;
         }
+        song.rating = (song.rating * song.nbRating + ratingModel.rating) / ( song.nbRating + 1);
+        song.nbRating++;
+        song.save().exec();
         ratingModel.save(function (err) {
           if (err) {
             res.status(400).json({
@@ -51,6 +54,7 @@ exports.rating = function (req, res) {
 
           console.log('rating: songId:'+ songId + ',userId:'+ userId+',rating:'+rating+'. saved successfully.');
           res.json({
+            rating: song.rating,
             message: 'rating: songId:'+ songId + ',userId:'+ userId+',rating:'+rating+'. saved successfully.'
           });
         });
