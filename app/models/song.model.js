@@ -65,6 +65,10 @@ var SongSchema = new Schema({
     trim: true,
     default: 'unknown'
   },
+  owner: {
+    type: Schema.ObjectId,
+    required: true
+  },
   path: {
     type: String,
     trim: true

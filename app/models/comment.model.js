@@ -22,6 +22,14 @@ var CommentSchema = new Schema({
     type: Schema.ObjectId,
     required: true
   },
+  user_id: {
+    type: Schema.ObjectId,
+    required: true
+  },
+  user_name: {
+    type: String,
+    required: true
+  },
   rating: {
     type: Number,
     default: 0

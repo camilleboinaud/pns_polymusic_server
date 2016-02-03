@@ -20,6 +20,8 @@ exports.writeNewComment = function(req, res) {
   var body = req.body,
     songId = body.songId,
     content = body.content,
+    userId = body.userId,
+    userName = body.userName,
     comment = new Comment();
 
   comment.content = content;
@@ -27,6 +29,8 @@ exports.writeNewComment = function(req, res) {
   Song.findById(songId, function (err, song) {
     if(song){
       comment.song_id = mongoose.Types.ObjectId(songId);
+      comment.user_id = mongoose.Types.ObjectId(userId);
+      comment.user_name = userName;
       comment.save(function (err) {
         if (err) {
           res.status(400).json({

@@ -50,6 +50,7 @@ exports.songsUpload = function(req, res) {
     var tracks = req.files,
       songName = req.body.songName,
       author = req.body.author,
+      owner = req.body.owner,
       song = new Song(req.body);
 
 
@@ -67,6 +68,7 @@ exports.songsUpload = function(req, res) {
     song.path = path.join(__dirname,'../../../' + savePath + songName);
     song.name = songName;
     song.author = author;
+    song.owner = mongoose.Types.ObjectId(owner);
 
     // track is saves so we can get id
     // add url

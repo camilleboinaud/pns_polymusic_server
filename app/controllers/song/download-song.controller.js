@@ -39,9 +39,7 @@ exports.getTrackById = function(req, res) {
   console.log('############ GET TRACK ############');
   var songId = req.params.songId,
     trackId = req.params.trackId;
-  console.info(req.params);
   Song.findById(songId, function (err, found) {
-    console.info(found);
     if(found){
       found.tracks.forEach(function (track) {
         if (track._id == trackId){
