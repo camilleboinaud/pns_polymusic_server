@@ -57,14 +57,18 @@ exports.getPlaylist = function(req, res) {
 };
 
 
-exports.deleteById = function (req, res) {
+exports.deleteSongById = function (req, res) {
   console.log('############ DELETE SONG ############');
   var songId = req.params.songId,
-    userId = req.body.userId;
+    userId = req.query.userId;
   Song.findById(songId, function (err, found) {
+    console.info(found.owner);
+    console.info(req.body);
+    console.info(found.owner == userId);
     if(found && (found.owner == userId)){
       found.remove(function (err) {
         res.json({
+          state: true,
           message:"song "+found.name+" is deleted"
         });
       })

@@ -13,7 +13,7 @@ module.exports = function (app) {
   app.get('/api/songs/:id', song.getSongById);
   app.get('/api/songs/:id/tracks', song.getTracksBySongId);
   app.get('/api/songs/:songId/tracks/:trackId', song.getTrackById);
-  app.delete('/api/songs/:songId', song.deleteById);
+  app.delete('/api/songs/:songId', song.deleteSongById);
   app.put('/api/songs/:songId', song.updateSongById);
   app.get('/api/users/:userId/songs', song.getSongsByUser);
 
