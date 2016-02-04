@@ -51,19 +51,9 @@ exports.getPlaylist = function(req, res) {
     if(err) {
       console.info(err);
     } else{
-      res.jsonp(songs);
+      res.json(songs);
     }
   });
-
-
-
-  if (req.query.userId){
-    delete query.is_pub;
-
-  }
-
-  console.info(query);
-
 };
 
 
@@ -104,3 +94,19 @@ exports.updateSongById = function (req, res) {
     }
   })
 };
+
+exports.getSongsByUser = function (req, res) {
+  console.log('############ GET SONGS BY USER ############');
+  var userId = req.params.userId,
+    query = {};
+  query.owner = userId;
+  console.log(query);
+  Song.find(query).sort('-created').exec(function (err, songs) {
+    if(err) {
+      console.info(err);
+    } else{
+      res.json(songs);
+    }
+  })
+};
+
