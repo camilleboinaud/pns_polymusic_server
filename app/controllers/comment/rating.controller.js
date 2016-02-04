@@ -39,7 +39,7 @@ exports.rating = function (req, res) {
           ratingModel.user_id = userId;
           ratingModel.rating = rating;
           song.nbRating++;
-          song.rating = (song.rating * song.nbRating + ratingModel.rating) / song.nbRating ;
+          song.rating = (song.rating * (song.nbRating - 1) + ratingModel.rating) / song.nbRating ;
         } else {
           //update
           ratingModel = doc;
