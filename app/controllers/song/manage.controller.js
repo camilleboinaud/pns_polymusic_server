@@ -4,7 +4,8 @@
 'use strict';
 var mongoose = require('mongoose'),
   Song = mongoose.model('Song'),
-  Comment = mongoose.model('Comment');
+  Comment = mongoose.model('Comment'),
+  fs = require('fs');
 
 
 /**
@@ -62,10 +63,9 @@ exports.deleteSongById = function (req, res) {
   var songId = req.params.songId,
     userId = req.query.userId;
   Song.findById(songId, function (err, found) {
-    console.info(found.owner);
-    console.info(req.body);
-    console.info(found.owner == userId);
     if(found && (found.owner == userId)){
+      // syn delete
+      deleteFolderRecursive(found.path);
       found.remove(function (err) {
         res.json({
           state: true,
@@ -114,3 +114,16 @@ exports.getSongsByUser = function (req, res) {
   })
 };
 
+var deleteFolderRecursive = function(path) {
+  if( fs.existsSync(path) ) {
+    fs.readdirSync(path).forEach(function(file,index){
+      var curPath = path + "/" + file;
+      if(fs.lstatSync(curPath).isDirectory()) { // recurse
+        deleteFolderRecursive(curPath);
+      } else { // delete file
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(path);
+  }
+};
