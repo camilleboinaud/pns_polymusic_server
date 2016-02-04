@@ -53,7 +53,6 @@ exports.songsUpload = function(req, res) {
       owner = req.body.owner,
       song = new Song(req.body);
 
-
     // It is synchronously
     tracks.forEach(function(trackFile){
       // save song into db

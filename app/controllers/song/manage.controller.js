@@ -15,6 +15,7 @@ var mongoose = require('mongoose'),
 exports.getPlaylist = function(req, res) {
   console.log('############ GET PLAYLIST ############');
   var query = {};
+  query.is_pub = true;
   if (req.query.string){
     query.$or = [
       {name: new RegExp(req.query.string)},
@@ -22,7 +23,11 @@ exports.getPlaylist = function(req, res) {
     ];
   }
   if (req.query.userId){
-    query.owner = req.query.userId
+    delete query.is_pub;
+    query.$or = [
+      {is_pub: true},
+      {$and:[{owner:req.query.userId},{is_pub: false}]}
+    ];
   }
   if (req.query.isSong) {
     query.is_song = new RegExp(req.query.isSong);
@@ -49,6 +54,31 @@ exports.deleteById = function (req, res) {
           message:"song "+found.name+" is deleted"
         });
       })
+    } else {
+      res.statusCode = 404;
+      res.end();
+    }
+  })
+};
+
+exports.updateSongById = function (req, res) {
+  console.log('############ UPDATE SONG ############');
+  var songId = req.params.songId,
+    userId = req.body.userId,
+    isPub = req.body.isPub;
+  Song.findById(songId, function (err, found) {
+    if(found){
+      if (found.owner == userId) {
+        found.is_pub = isPub;
+        found.save(function (err) {
+          res.json({
+            message:"song update success"
+          });
+        });
+      } else {
+        res.statusCode = 400;
+        res.end();
+      }
     } else {
       res.statusCode = 404;
       res.end();

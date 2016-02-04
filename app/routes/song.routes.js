@@ -14,5 +14,6 @@ module.exports = function (app) {
   app.get('/api/songs/:id/tracks', song.getTracksBySongId);
   app.get('/api/songs/:songId/tracks/:trackId', song.getTrackById);
   app.delete('/api/songs/:songId', song.deleteById);
+  app.put('/api/songs/:songId', song.updateSongById);
 
 };
