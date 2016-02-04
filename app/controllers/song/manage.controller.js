@@ -15,24 +15,38 @@ var mongoose = require('mongoose'),
 exports.getPlaylist = function(req, res) {
   console.log('############ GET PLAYLIST ############');
   var query = {};
-  query.is_pub = true;
-  if (req.query.string){
-    query.$or = [
-      {name: new RegExp(req.query.string)},
-      {author: new RegExp(req.query.string)}
-    ];
+  if (!req.query.userId) {
+    query.is_pub = true;
+    if (req.query.string){
+      query.$or = [
+        {name: new RegExp(req.query.string)},
+        {author: new RegExp(req.query.string)}
+      ];
+    }
+  } else {
+    if (req.query.string){
+      query.$and = [
+        {$or: [
+          {is_pub: true},
+          {$and:[{owner:req.query.userId},{is_pub: false}]}
+        ]},
+        {$or: [
+          {name: new RegExp(req.query.string)},
+          {author: new RegExp(req.query.string)}
+        ]}
+      ];
+    } else {
+      query.$or = [
+        {is_pub: true},
+        {$and:[{owner:req.query.userId},{is_pub: false}]}
+      ];
+    }
   }
-  if (req.query.userId){
-    delete query.is_pub;
-    query.$or = [
-      {is_pub: true},
-      {$and:[{owner:req.query.userId},{is_pub: false}]}
-    ];
-  }
+
   if (req.query.isSong) {
-    query.is_song = new RegExp(req.query.isSong);
+    query.is_song = req.query.isSong;
   }
-  console.info(query);
+
   Song.find(query).sort('-created').exec(function(err,songs){
     if(err) {
       console.info(err);
@@ -40,6 +54,16 @@ exports.getPlaylist = function(req, res) {
       res.jsonp(songs);
     }
   });
+
+
+
+  if (req.query.userId){
+    delete query.is_pub;
+
+  }
+
+  console.info(query);
+
 };
 
 
@@ -67,18 +91,13 @@ exports.updateSongById = function (req, res) {
     userId = req.body.userId,
     isPub = req.body.isPub;
   Song.findById(songId, function (err, found) {
-    if(found){
-      if (found.owner == userId) {
+    if(found && (found.owner == userId)){
         found.is_pub = isPub;
         found.save(function (err) {
           res.json({
             message:"song update success"
           });
         });
-      } else {
-        res.statusCode = 400;
-        res.end();
-      }
     } else {
       res.statusCode = 404;
       res.end();
