@@ -65,11 +65,27 @@ exports.rating = function (req, res) {
           });
         });
       }
-
-
     });
-
   });
+};
 
+exports.getRating = function (req, res) {
+  console.log('############ GET RATING ############');
+  var userId = mongoose.Types.ObjectId(req.query.userId),
+    songId = mongoose.Types.ObjectId(req.query.songId);
+  Rating.findOne({ 'song_id': songId, 'user_id':userId }, function (err, doc) {
+    if (err) {
+      res.status(400).json({
+        message: err
+      });
+      throw err;
+    }
+    if (doc) {
+      res.json(doc);
+    } else {
+      res.status(404);
+      res.end();
+    }
+  });
 
 };
