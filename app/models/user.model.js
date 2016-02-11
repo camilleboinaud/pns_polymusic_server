@@ -99,4 +99,8 @@ UserSchema.methods.authenticate = function (password) {
   return this.password === this.hashPassword(password);
 };
 
+UserSchema.methods.findByEmail = function(email, callback){
+  return UserSchema.find({email: email}, callback);
+}
+
 mongoose.model('User', UserSchema);
