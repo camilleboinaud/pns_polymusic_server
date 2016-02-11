@@ -2,7 +2,7 @@ var should = require('should');
 var assert = require('assert');
 var request = require('supertest');
 var mongoose = require('mongoose');
-var config = require('../../config-test.js');
+var app = require('../../app-test.js');
 
 describe('Routing', function() {
   var url = 'http://localhost:3000';

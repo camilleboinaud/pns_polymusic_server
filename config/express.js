@@ -15,22 +15,6 @@ module.exports = function(app, config) {
    * Cross domain
    */
   app.use(cors());
-  //app.use(function(req, res, next) {
-  //    res.header('Access-Control-Allow-Methods', '*');
-  //    res.header('Access-Control-Allow-Origin', '*');
-  //
-  //    res.header('Access-Control-Allow-Headers', 'Origin,X-Requested-With,Content-Type,Cache-Control, Accept');
-  //    console.log('set cross header for ' + req.method);
-  //
-  //    if (req.method === 'OPTIONS') {
-  //      res.statusCode = 204;
-  //      res.end();
-  //    } else {
-  //      console.info(next);
-  //      next(req, res);
-  //    }
-  //  }
-  //);
 
   var env = process.env.NODE_ENV || 'development';
   app.locals.ENV = env;
@@ -47,10 +31,7 @@ module.exports = function(app, config) {
     limit: '50mb'
   }));
 
-  //app.use(cookieParser());
-  //app.use(compress());
   app.use(express.static(config.root + '/public'));
-  //app.use(methodOverride());
 
   /**
    * require app controller

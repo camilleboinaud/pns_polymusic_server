@@ -1,12 +1,4 @@
 /**
- * Created by sth on 1/15/16.
- */
-
-
-
-
-
-/**
  * Module dependencies.
  */
 var _ = require('lodash'),
@@ -33,7 +25,6 @@ module.exports = _.extend(
 module.exports = function (app) {
   app.use('/', router);
 };
-
 router.get('/', function (req, res) {
   res.send('Welcome PolyMusic');
 });
