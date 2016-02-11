@@ -86,6 +86,7 @@ exports.songsUpload = function(req, res) {
         // Remove sensitive data before login
         // success
         res.json({
+          id: song._id,
           message: songName + ' saved successfully.'
         });
         console.log(songName +' is saved!');

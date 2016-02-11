@@ -1,17 +1,41 @@
-var should = require('should');
-var assert = require('assert');
-var request = require('supertest');
-var mongoose = require('mongoose');
-var app = require('../../app-test.js');
+var should = require('should'),
+  assert = require('assert'),
+  request = require('supertest'),
+  app = require('../../app-test.js'),
+  mongoose = require('mongoose'),
+  Song = mongoose.model('Song'),
+  User = mongoose.model('User');
 
 describe('Routing', function() {
-  var url = 'http://localhost:3000';
+  var url = 'http://localhost:3000',
+    song_test = {
+      name:'song_test',
+      author:'author_test',
+      path: 'path_test'
+    },
+    user_test = {
+      username: 'user_test',
+      email: 'user_test@email.com',
+      password: 'password'
+    },
+    user = new User(user_test),
+    song;
+  song_test.owner = user._id;
+  song = new Song(song_test);
 
   before(function(done) {
-    // In our tests we use the test db
-    //console.info(config);
-    //mongoose.connect(config.test);
+    user.save();
+    song.save(function(error){
+      if (error) {
+        throw error;
+      }
+    });
     done();
+  });
+
+  after(function() {
+    song.remove();
+    user.remove();
   });
 
 
@@ -19,8 +43,8 @@ describe('Routing', function() {
     it('should return song not found with message', function(done) {
 
       var rating_notfound = {
-        'songId':'56b2766bdbc35bbbc1e5138f',
-        'userId':'56aff6806b606bab196aae5e',
+        'songId':'56b4c518d2633efe0816c891',
+        'userId':user._id,
         'rating': 3
       };
 
@@ -43,8 +67,8 @@ describe('Routing', function() {
     it('should return success with message', function(done) {
 
       var rating_success = {
-        'songId':'56b8aa9bdf3d61b029b9f0cc',
-        'userId':'56aff6806b606bab196aae5e',
+        'songId':song._id,
+        'userId':user._id,
         'rating': 3
       };
 
@@ -70,13 +94,13 @@ describe('Routing', function() {
     it('rating 2 times should', function(done) {
 
       var rating_first = {
-        'songId':'56b8aa9bdf3d61b029b9f0cc',
-        'userId':'56aff6806b606bab196aae5e',
+        'songId': song._id,
+        'userId': user._id,
         'rating': 3
       },
         rating_second = {
-          'songId':'56b8aa9bdf3d61b029b9f0cc',
-          'userId':'56aff6806b606bab196aae5e',
+          'songId': song._id,
+          'userId': user._id,
           'rating': 4
         },
         ngRating,

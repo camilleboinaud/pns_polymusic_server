@@ -22,22 +22,6 @@ var mongoose = require('mongoose'),
  isPlaying: false
 
  */
-var TimeSchema = new Schema({
-  min: {
-    type: Number,
-    trim: true,
-    min: 0,
-    default: 0
-  },
-  sec: {
-    type: Number,
-    trim: true,
-    min: 0,
-    max: 60,
-    default: 0
-  }
-});
-
 var TrackSchema = new Schema({
   name: {
     type: String,
@@ -73,7 +57,6 @@ var SongSchema = new Schema({
     type: String,
     trim: true
   },
-  time: TimeSchema,
   is_pub: {
     type: Boolean,
     default: false
