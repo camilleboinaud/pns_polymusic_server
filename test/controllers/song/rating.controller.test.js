@@ -6,7 +6,7 @@ var should = require('should'),
   Song = mongoose.model('Song'),
   User = mongoose.model('User');
 
-describe('Routing', function() {
+describe('rating manager test', function() {
   var url = 'http://localhost:3000',
     song_test = {
       name:'song_test',

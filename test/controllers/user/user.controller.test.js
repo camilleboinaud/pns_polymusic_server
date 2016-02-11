@@ -1,12 +1,11 @@
 'use strict';
 
-var should = require('should');
-var assert = require('assert');
-var request = require('supertest');
-var mongoose = require('mongoose');
-var app = require('../../app-test.js');
-var UserSchema = require('../../../app/models/user.model.js');
-var User = mongoose.model('User');
+var should = require('should'),
+  assert = require('assert'),
+  request = require('supertest'),
+  app = require('../../app-test.js'),
+  mongoose = require('mongoose'),
+  User = mongoose.model('User');
 
 describe('user management test', function(){
 
@@ -15,16 +14,28 @@ describe('user management test', function(){
 
   describe('registering test cases', function(){
 
+    var user_test = {
+      username: 'user_test',
+      email: 'user_test@email.com',
+      password: 'password'
+    }, requestBody = {
+      username: 'my_username',
+      email: 'firstname.lastname@email.com',
+      password: 'azerty'
+    };
 
-    beforeEach(function(done){
-      console.log('before each run\n');
+    before(function (done){
+      user = new User(user_test);
+      done()
+    });
 
-      var requestBody = {
-        username: 'my_username',
-        email: 'firstname.lastname@email.com',
-        password: 'azerty'
-      };
+    after(function (done) {
+      user.remove();
+      done();
+    });
 
+
+    it('test register', function(done){
       request(url)
         .post('/register')
         .send(requestBody)
@@ -32,56 +43,38 @@ describe('user management test', function(){
           if(error){
             throw error;
           }
-
-          user = result;
+          result.status.should.be.equal(200);
+          result.body.should.have.property('success');
+          result.body.should.have.property('message');
+          result.body.should.have.property('user');
+          result.body.success.should.be.equal(true);
+          User.findById(result.body.user._id, function (err, found) {
+            if(err) {
+              throw err;
+            }
+            found.remove();
+          });
           done();
         });
-
-    });
-
-    afterEach(function(done){
-      console.log('after each run\n');
-      User.findOne({'email': user.body.user.email}, function(err, usr){
-        console.log(err);
-        console.log(usr);
-        usr.remove();
-        done();
-      });
-    });
-
-    it('test return status', function(done){
-      user.status.should.be.equal(200);
-      done();
-    });
-
-    it('test body answer : right behavior', function(done){
-      user.body.should.have.property('message');
-      user.body.should.have.property('success');
-      user.body.should.have.property('user');
-
-      user.body.success.should.be.equal(true);
-      done();
     });
 
     it('test body answer : using same email twice', function(done){
 
-      var requestBody = {
-        username: 'my_username_2',
-        email: 'firstname.lastname@email.com',
-        password: 'azerty_2'
+      var requestBody2 = {
+        username: user_test.username+'2',
+        email: user_test.email,
+        password: user_test.password
       };
 
       request(url)
         .post('/register')
-        .send(requestBody)
+        .send(requestBody2)
         .end(function(error, result) {
           if (error) {
             throw error;
           }
-
           result.status.should.be.equal(400);
       });
-
       done();
     });
   });
