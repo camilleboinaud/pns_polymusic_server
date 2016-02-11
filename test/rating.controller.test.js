@@ -1,7 +1,7 @@
 var should = require('should'),
   assert = require('assert'),
   request = require('supertest'),
-  app = require('../../app-test.js'),
+  app = require('./app-test.js'),
   mongoose = require('mongoose'),
   Song = mongoose.model('Song'),
   User = mongoose.model('User');
