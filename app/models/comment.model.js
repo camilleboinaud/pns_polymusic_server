@@ -1,9 +1,3 @@
-/**
- * Created by sth on 1/17/16.
- */
-/**
- * Created by sth on 1/11/16.
- */
 'use strict';
 
 /**

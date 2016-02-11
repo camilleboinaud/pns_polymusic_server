@@ -1,6 +1,3 @@
-/**
- * Created by sth on 1/28/16.
- */
 'use strict';
 var mongoose = require('mongoose'),
   Song = mongoose.model('Song'),

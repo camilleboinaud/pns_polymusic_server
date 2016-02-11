@@ -1,6 +1,3 @@
-/**
- * Created by sth on 1/15/16.
- */
 'use strict';
 var express = require('express'),
   fs = require('fs'),

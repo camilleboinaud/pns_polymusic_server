@@ -1,6 +1,3 @@
-/**
- * Created by sth on 1/17/16.
- */
 'use strict';
 
 var mongoose = require('mongoose'),
