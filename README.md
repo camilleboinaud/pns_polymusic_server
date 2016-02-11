@@ -1,5 +1,6 @@
 # PolyMusic Server
-> This _README_ file aims to introduce deployment and test
+This _README_ file aims to introduce deployment and test.
+<br>
 <br>
 This project is about developing a music website.
 <br>
